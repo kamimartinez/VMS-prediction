@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Datos del CAETEC (confidenciales): nunca se suben al repositorio
+*.csv
+*.xlsx
+*.xls
+mapeo_id_vaca*
+Datos/
