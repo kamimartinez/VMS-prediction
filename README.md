@@ -11,7 +11,7 @@ Proyecto de análisis de datos enfocado en comprender y predecir la formación d
 
 ## Metodología
 
-El proyecto sigue la metodología CRISP-DM (Cross-Industry Standard Process for Data Mining) de forma iterativa. Las fases se trabajan en función de los hallazgos y las necesidades del proyecto, por lo que es posible regresar a etapas anteriores para revisar objetivos, validar supuestos o ajustar el análisis a los datos disponibles.
+El proyecto sigue la metodología CRISP-DM (*Cross-Industry Standard Process for Data Mining*) de forma iterativa. Las fases se trabajan en función de los hallazgos y las necesidades del proyecto, por lo que es posible regresar a etapas anteriores para revisar objetivos, validar supuestos o ajustar el análisis a los datos disponibles.
 
 La documentación se organiza según las iteraciones realizadas y las fases de CRISP-DM involucradas. Los números de las carpetas identifican la secuencia de los entregables documentados, mientras que los números entre paréntesis corresponden a las fases de CRISP-DM y a sus respectivas versiones.
 
@@ -36,6 +36,7 @@ VMS-prediction/
 │   ├── 04-data-understanding-2.1/
 │   └── 05-data-preparation-3.0/
 ├── docs/
+│   ├── big-data/
 │   └── data-privacy/
 ├── notebooks/
 │   ├── data/
@@ -46,10 +47,11 @@ VMS-prediction/
 │   └── tables/
 ├── .gitignore
 ├── LICENSE
+├── INDEX.md
 └── README.md
 ```
 
-Se utilizan archivos .gitkeep para conservar en Git los directorios que todavía no contienen entregables.
+Se utilizan archivos `.gitkeep` para conservar en Git los directorios que todavía no contienen entregables.
 
 - **`crisp-dm/`**: contiene la documentación de las iteraciones y fases de la metodología CRISP-DM desarrolladas hasta el momento.
 - **`docs/`**: agrupa documentación complementaria al proceso de minería de datos.
@@ -63,9 +65,10 @@ Se utilizan archivos .gitkeep para conservar en Git los directorios que todavía
   - **`tables/`**: destinado a las tablas y resultados tabulares.
 - **`.gitignore`**: define los archivos y patrones que Git debe ignorar.
 - **`LICENSE`**: contiene la licencia del repositorio.
+- **`INDEX.md`**: índice de referencia para explorar el repositorio y localizar los documentos metodológicos de CRISP-DM. Permite identificar la última versión disponible de cada documento, su ubicación y su historial de versiones. Debe consultarse antes de utilizar documentación de estas fases.
 - **`README.md`**: presenta el propósito, la metodología y la estructura del proyecto.
 
-La estructura podrá ampliarse conforme avance el proyecto y se generen nuevos entregables.
+La estructura podrá ampliarse conforme avance el proyecto y se generen nuevos entregables. Cualquier cambio en las rutas o en las versiones vigentes de la documentación metodológica deberá reflejarse en `INDEX.md`.
 
 ## Estado y seguimiento del proyecto
 
@@ -77,11 +80,23 @@ Los avances, resultados y cambios en la planificación se actualizarán conforme
 
 ## Documentación
 
-La documentación metodológica se encuentra organizada dentro de `crisp-dm/`, siguiendo las iteraciones realizadas.
+El repositorio contiene documentación metodológica, notebooks, datos, resultados y otros archivos relacionados con el desarrollo del proyecto. Para explorar su contenido, se debe utilizar `README.md` como guía general de la estructura y `INDEX.md` como referencia para localizar los documentos metodológicos de CRISP-DM.
 
-Para conocer el contexto, los objetivos de negocio, los criterios de éxito y los objetivos de minería de datos, se recomienda comenzar por los siguientes documentos:
+### Índice y localización de archivos
 
-- `crisp-dm/XX-business-understanding-[Ultima versión]/business-understanding.pdf`: documento de entendimiento del negocio.
-- `crisp-dm/XX-business-understanding-[Ultima versión]/one-page-summary.pdf`: resumen ejecutivo del entendimiento del negocio.
+Antes de buscar, consultar, utilizar o modificar documentación de CRISP-DM, consulta [`INDEX.md`](INDEX.md), ubicado en el directorio raíz del repositorio.
 
-Estos documentos corresponden a la versión inicial del entendimiento del negocio y podrán actualizarse conforme avance el proyecto.
+Este índice es la referencia principal para identificar la última versión disponible de cada documento metodológico, su ubicación y su historial de versiones. Las rutas y versiones vigentes deben obtenerse directamente del índice, sin inferirlas a partir de los nombres de las carpetas ni asumir que todos los documentos de una fase pertenecen al mismo directorio de versión.
+
+Los documentos que no hayan cambiado pueden permanecer en directorios de versiones anteriores. Por tanto, no se debe asumir que el directorio con el número de versión más alto contiene todos los documentos vigentes. Las versiones históricas deben distinguirse de las vigentes conforme a las referencias del índice.
+
+Para localizar otros recursos del proyecto, como notebooks, datos, figuras y tablas, utiliza la estructura descrita en este README como orientación y verifica las rutas y los archivos existentes.
+
+### Documentos recomendados para comenzar
+
+Para conocer el contexto, los objetivos de negocio, los criterios de éxito y los objetivos de minería de datos, se recomienda comenzar por los siguientes documentos, cuyas rutas y versiones deben localizarse mediante `INDEX.md`:
+
+- `business-understanding.pdf`: documento de entendimiento del negocio.
+- `one-page-summary.pdf`: resumen ejecutivo del entendimiento del negocio.
+
+La documentación y la estructura del repositorio podrán ampliarse conforme avance el proyecto. Toda nueva versión, modificación o incorporación de documentos metodológicos deberá reflejarse en `INDEX.md`, manteniendo una referencia consistente y confiable de los entregables de cada fase de CRISP-DM.
