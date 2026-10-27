@@ -18,7 +18,9 @@ Las rutas de los enlaces son relativas al directorio raíz del repositorio.
 
 ## 02. Data Understanding
 
-*Documentación pendiente.*
+| Documento | Última versión | Última modificación en | Enlace |
+|---|---|---|---|
+| Data Understanding | 2.0 | 2.0 | [Ver PDF](crisp-dm/02-data-understanding-2.0/data-understanding.pdf) |
 
 ## 03. Data Preparation
 
