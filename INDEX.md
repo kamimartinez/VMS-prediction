@@ -24,7 +24,9 @@ Las rutas de los enlaces son relativas al directorio raíz del repositorio.
 
 ## 03. Data Preparation
 
-*Documentación pendiente.*
+| Documento | Última versión | Última modificación en | Enlace |
+|---|---|---|---|
+| Data Preparation | 3.0 | 3.0 | [Ver PDF](crisp-dm/05-data-preparation-3.0/data-preparation.pdf) |
 
 ## 04. Modeling
 
