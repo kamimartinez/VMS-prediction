@@ -66,6 +66,18 @@ Esta sección reúne los documentos de privacidad de los datos elaborados por lo
 
 **Directorio:** [`docs/big-data/`](docs/big-data/)
 
-Contiene documentación complementaria relacionada con Big Data, sus tecnologías, herramientas, conceptos y aplicaciones pertinentes para el proyecto.
+Esta sección reúne documentación complementaria relacionada con Big Data, sus tecnologías, herramientas, conceptos y aplicaciones pertinentes para el proyecto.
 
-*Documentación pendiente.*
+| Recurso | Descripción | Enlace |
+|---|---|---|
+| Análisis de Big Data | Documento de referencia sobre Big Data en el contexto del proyecto. | [Ver PDF](docs/big-data/big-data-analysis.pdf) |
+
+### Scripts
+
+**Directorio:** [`scripts/big-data/`](scripts/big-data/)
+
+Contiene recursos de experimentación orientados al procesamiento distribuido de datos y la experimentación con herramientas de Big Data.
+
+| Recurso | Descripción | Enlace |
+|---|---|---|
+| Cowtec Spark | Notebook que utiliza Apache Spark para extraer, limpiar y transformar registros de producción de leche del CAETEC. | [Ver notebook](scripts/big-data/cowtec-spark.ipynb) |
