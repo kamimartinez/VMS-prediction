@@ -45,6 +45,9 @@ VMS-prediction/
 ├── reports/
 │   ├── figures/
 │   └── tables/
+├── scripts/
+│   ├── big-data/
+│   └── utilities/
 ├── .gitignore
 ├── LICENSE
 ├── INDEX.md
@@ -63,6 +66,9 @@ Se utilizan archivos `.gitkeep` para conservar en Git los directorios que todav�
 - **`reports/`**: espacio destinado a los resultados y entregables gráficos del proyecto.
   - **`figures/`**: destinado a las figuras y visualizaciones.
   - **`tables/`**: destinado a las tablas y resultados tabulares.
+- **`scripts/`**: espacio destinado a código complementario a los notebooks principales.
+  - **`big-data/`**: destinado al módulo de big data y su posible implementación.
+  - **`utilities/`**: destinado a códigos de muestra o ayuda al proyecto.
 - **`.gitignore`**: define los archivos y patrones que Git debe ignorar.
 - **`LICENSE`**: contiene la licencia del repositorio.
 - **`INDEX.md`**: índice de referencia para explorar el repositorio y localizar los documentos metodológicos de CRISP-DM. Permite identificar la última versión disponible de cada documento, su ubicación y su historial de versiones. Debe consultarse antes de utilizar documentación de estas fases.
