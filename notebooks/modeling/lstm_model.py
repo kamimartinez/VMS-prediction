@@ -1,4 +1,9 @@
-from modeling.model_base import BaseModel
+import sys
+IN_COLAB = "google.colab" in sys.modules
+if IN_COLAB:
+  from modeling.model_base import BaseModel
+else:
+  from model_base import BaseModel
 import tensorflow as tf
 from tensorflow.keras import Input, Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
@@ -11,7 +16,7 @@ class LSTMModel(BaseModel):
     }
     
   def prepare(self, X):
-    return X
+    return X.reshape((X.shape[0], 1, X.shape[1]))
   
   def compile(self, input_shape=128, output_shape=1, v="base"):
     if v not in self.versions:
