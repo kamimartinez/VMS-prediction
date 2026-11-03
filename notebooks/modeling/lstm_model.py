@@ -1,6 +1,6 @@
 from model_base import BaseModel
 import tensorflow as tf
-from tensorflow.keras import Input, Sequenial
+from tensorflow.keras import Input, Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 
 class LSTM(BaseModel):
@@ -20,7 +20,7 @@ class LSTM(BaseModel):
   
   def __compile_lstm_v1(self, input_shape, output_shape):
     """https://www.geeksforgeeks.org/deep-learning/long-short-term-memory-lstm-rnn-in-tensorflow/"""
-    model = Sequenial(
+    model = Sequential(
       [
         Input(shape=input_shape),
         LSTM(units=128, return_sequences=True),
