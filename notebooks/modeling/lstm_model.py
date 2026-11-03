@@ -1,4 +1,4 @@
-from model_base import BaseModel
+from modeling.model_base import BaseModel
 import tensorflow as tf
 from tensorflow.keras import Input, Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
