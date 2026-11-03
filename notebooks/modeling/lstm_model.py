@@ -1,6 +1,6 @@
 from model_base import BaseModel
 import tensorflow as tf
-from tensorflow.keras.models import Input, Sequenial
+from tensorflow.keras import Input, Sequenial
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 
 class LSTM(BaseModel):
