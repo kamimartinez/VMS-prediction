@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow.keras import Input, Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 
-class LSTM(BaseModel):
+class LSTMModel(BaseModel):
   def __init__(self):
     pass
     self.versions = {
