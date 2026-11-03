@@ -1,9 +1,9 @@
-from model_base import BaseModel
+from modeling.model_base import BaseModel
 import tensorflow as tf
-from tensorflow.keras.models import Input, Sequenial
+from tensorflow.keras import Input, Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 
-class LSTM(BaseModel):
+class LSTMModel(BaseModel):
   def __init__(self):
     pass
     self.versions = {
@@ -11,7 +11,7 @@ class LSTM(BaseModel):
     }
     
   def prepare(self, X):
-    return X.reshape((X.shape[0], X.shape[1], 1))
+    return X
   
   def compile(self, input_shape=128, output_shape=1, v="base"):
     if v not in self.versions:
@@ -20,7 +20,7 @@ class LSTM(BaseModel):
   
   def __compile_lstm_v1(self, input_shape, output_shape):
     """https://www.geeksforgeeks.org/deep-learning/long-short-term-memory-lstm-rnn-in-tensorflow/"""
-    model = Sequenial(
+    model = Sequential(
       [
         Input(shape=input_shape),
         LSTM(units=128, return_sequences=True),
@@ -34,7 +34,7 @@ class LSTM(BaseModel):
     model.compile(
             optimizer="adam",
             loss="mean_squared_error",
-            metrics=["accuracy", "precision"],
+            metrics=["mae", tf.keras.metrics.RootMeanSquaredError(name="rmse")],
         )
     
     return model
