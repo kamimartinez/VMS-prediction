@@ -11,7 +11,7 @@ class LSTMModel(BaseModel):
     }
     
   def prepare(self, X):
-    return X.reshape((X.shape[0], X.shape[1], 1))
+    return X
   
   def compile(self, input_shape=128, output_shape=1, v="base"):
     if v not in self.versions:
@@ -34,7 +34,7 @@ class LSTMModel(BaseModel):
     model.compile(
             optimizer="adam",
             loss="mean_squared_error",
-            metrics=["accuracy", "precision"],
+            metrics=["mae", tf.keras.metrics.RootMeanSquaredError(name="rmse")],
         )
     
     return model
