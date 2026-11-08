@@ -6,7 +6,7 @@ else:
   from model_base import BaseModel
 import tensorflow as tf
 from tensorflow.keras import Input, Sequential
-from tensorflow.keras.layers import LSTM, Dense, Dropout
+from tensorflow.keras.layers import LSTM, Dense, Dropout, LayerNormalization
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -26,7 +26,9 @@ class LSTMModel(BaseModel):
   def __init__(self):
     pass
     self.versions = {
-      "base": self.__compile_lstm_v1
+      "base": self.__compile_lstm_v1,
+      "dense": self.__compile_lstm_v2,
+      "norm": self.__compile_lstm_v3
     }
     
   def prepare(self, X):
@@ -46,6 +48,62 @@ class LSTMModel(BaseModel):
         Dropout(0.2),
         LSTM(units=128),
         Dropout(0.2),
+        Dense(64, activation="relu"),
+        Dense(output_shape, activation='sigmoid')
+      ]
+    )
+    
+    model.compile(
+            optimizer="adam",
+            loss="binary_crossentropy",
+            metrics=[
+              "accuracy",
+            tf.keras.metrics.AUC(name="auc"),
+            tf.keras.metrics.Precision(name="precision"),
+            tf.keras.metrics.Recall(name="recall")
+            ],
+        )
+    
+    return model
+  
+  def __compile_lstm_v2(self, input_shape, output_shape):
+    """https://www.geeksforgeeks.org/deep-learning/long-short-term-memory-lstm-rnn-in-tensorflow/"""
+    model = Sequential(
+      [
+        Input(shape=input_shape),
+        LSTM(units=128, return_sequences=True),
+        Dropout(0.2),
+        LSTM(units=64, return_sequences=True),
+        Dropout(0.2),
+        LSTM(units=32),
+        Dropout(0.2),
+        Dense(64, activation="relu"),
+        Dense(output_shape, activation='sigmoid')
+      ]
+    )
+    
+    model.compile(
+            optimizer="adam",
+            loss="binary_crossentropy",
+            metrics=[
+              "accuracy",
+            tf.keras.metrics.AUC(name="auc"),
+            tf.keras.metrics.Precision(name="precision"),
+            tf.keras.metrics.Recall(name="recall")
+            ],
+        )
+    
+    return model
+  
+  def __compile_lstm_v3(self, input_shape, output_shape):
+    """https://www.geeksforgeeks.org/deep-learning/long-short-term-memory-lstm-rnn-in-tensorflow/"""
+    model = Sequential(
+      [
+        Input(shape=input_shape),
+        LSTM(units=128, return_sequences=True),
+        LayerNormalization(),
+        LSTM(units=64),
+        LayerNormalization(),
         Dense(64, activation="relu"),
         Dense(output_shape, activation='sigmoid')
       ]
