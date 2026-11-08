@@ -9,3 +9,6 @@ class BaseModel:
 
     def compile(self):
         raise ValueError("BaseModel does not have an implementation for: compile")
+    
+    def evaluate(self):
+        raise ValueError("BaseModel does not have an implementation for: evaluate")
