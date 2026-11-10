@@ -30,7 +30,11 @@ Las rutas de los enlaces son relativas al directorio raíz del repositorio.
 
 ## 04. Modeling
 
-*Documentación pendiente.*
+| Documento | Última versión | Última modificación en | Enlace |
+|---|---|---|---|
+| Reporte Modelos | 4.0 | 4.0 | [Ver PDF](crisp-dm/06-modeling-4.0/reporte-modelos.pdf) |
+| Reporte Metodología | 4.0 | 4.0 | [Ver PDF](crisp-dm/06-modeling-4.0/reporte-metodologia-crisp-dm.pdf) |
+| Supuestos de Modelado | 4.0 | 4.0 | [Ver PDF](crisp-dm/06-modeling-4.0/supuestos-de-modelado.pdf) |
 
 ## 05. Evaluation
 
