@@ -32,12 +32,13 @@ VMS-prediction/
 │   ├── 01-business-understanding-1.0/
 │   ├── 02-data-understanding-2.0/
 │   ├── 03-business-understanding-1.1/
-│   ├── .
-│   ├── .
-│   └── .
+│   ├── 04-data-understanding-2.1/
+│   ├── 05-data-preparation-3.0/
+│   └── 06-modeling-4.0/
 ├── docs/
 │   ├── big-data/
 │   └── data-privacy/
+├── models/
 ├── notebooks/
 │   ├── data/
 │   ├── modeling/
@@ -59,6 +60,7 @@ Se utilizan archivos `.gitkeep` para conservar en Git los directorios que todav�
 - **`crisp-dm/`**: contiene la documentación de las iteraciones y fases de la metodología CRISP-DM desarrolladas hasta el momento.
 - **`docs/`**: agrupa documentación complementaria al proceso de minería de datos.
   - **`data-privacy/`**: contiene los documentos relacionados con la privacidad y la seguridad de los datos elaborados por los integrantes del equipo.
+- **`models/`**: incluye la versión exportada de los modelos entrenados.
 - **`notebooks/`**: contiene los notebooks utilizados para el desarrollo técnico del proyecto.
   - **`data/`**: incluye los notebooks de entendimiento y preparación de los datos.
   - **`modeling/`**: espacio destinado a los notebooks de modelado.
