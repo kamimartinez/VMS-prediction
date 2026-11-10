@@ -7,6 +7,8 @@ else:
 import tensorflow as tf
 from tensorflow.keras import Input, Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout, LayerNormalization
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.regularizers import l2
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -28,7 +30,8 @@ class LSTMModel(BaseModel):
     self.versions = {
       "base": self.__compile_lstm_v1,
       "dense": self.__compile_lstm_v2,
-      "norm": self.__compile_lstm_v3
+      "norm": self.__compile_lstm_v3,
+      "norm+drop": self.__compile_lstm_v4
     }
     
   def prepare(self, X):
@@ -120,6 +123,33 @@ class LSTMModel(BaseModel):
             ],
         )
     
+    return model
+  
+  def __compile_lstm_v4(self, input_shape, output_shape):
+    model = Sequential([
+        Input(shape=input_shape),
+        LSTM(64, return_sequences=True),
+        LayerNormalization(),
+        Dropout(0.3),
+        LSTM(32),
+        LayerNormalization(),
+        Dropout(0.3),
+        Dense(32, activation="relu", kernel_regularizer=l2(1e-4)),
+        Dropout(0.2),
+        Dense(output_shape, activation="sigmoid"),
+    ])
+
+    model.compile(
+        optimizer=Adam(clipnorm=1.0),
+        loss="binary_crossentropy",
+        metrics=[
+            "accuracy",
+            tf.keras.metrics.AUC(name="auc"),
+            tf.keras.metrics.AUC(name="pr_auc", curve="PR"),
+            tf.keras.metrics.Precision(name="precision"),
+            tf.keras.metrics.Recall(name="recall"),
+        ],
+    )
     return model
   
   def evaluate(self, model, history, X_test, y_test, threshold=0.5):
