@@ -6,6 +6,7 @@ import seaborn as sns
 import numpy as np
 import pandas as pd
 from model_base import BaseModel
+from scipy import stats
 from sklearn.metrics import (
     accuracy_score,
     precision_score,
@@ -162,3 +163,50 @@ class LogisticRegression(BaseModel):
         plt.show()
     
         return df_predictions, df_summary_metrics
+      
+  def print_weigths(self, model, X_test, columns):
+    weights, bias = model.layers[0].get_weights()
+    weights = weights.flatten()
+    b = bias[0]
+
+    # 1. Calcular las probabilidades predichas
+    y_pred_prob = model.predict(X_test, verbose=0).flatten()
+
+    # 2. Prevenir valores numéricos extremos (0.0 o 1.0) mediante clipping
+    eps = 1e-8
+    y_pred_prob = np.clip(y_pred_prob, eps, 1 - eps)
+    p_diag = y_pred_prob * (1 - y_pred_prob)
+
+    # 3. Construir matriz de diseño X con columna para el bias: [X_test, 1]
+    X_design = np.hstack([X_test, np.ones((X_test.shape[0], 1))])
+
+    # 4. Calcular la Matriz de Información de Fisher (X^T * V * X)
+    V_X = X_design * p_diag[:, np.newaxis]
+    fisher_info = np.dot(X_design.T, V_X)
+
+    # 5. Usar Pseudoinversa (pinv) en lugar de inv para evitar Singular Matrix
+    cov_matrix = np.linalg.pinv(fisher_info)
+
+    # Errores estándar (se asegura que no haya valores negativos bajo la raíz por imprecisión numérica)
+    std_errors = np.sqrt(np.maximum(np.diag(cov_matrix), 0))
+
+    # 6. Z-scores y P-values
+    all_weights = np.append(weights, b)
+    
+    # Manejar posibles errores estándar cero/nulos
+    with np.errstate(divide='ignore', invalid='ignore'):
+        z_scores = np.where(std_errors > 0, all_weights / std_errors, 0.0)
+        p_values = 2 * (1 - stats.norm.cdf(np.abs(z_scores)))
+
+    # 7. Construir y desplegar el DataFrame
+    feature_names = [i for i in columns] + ["Intercept (Bias)"]
+
+    df_stats = pd.DataFrame({
+        "Feature": feature_names,
+        "Coefficient": all_weights,
+        "Std Error": std_errors,
+        "p-value": p_values
+    })
+
+    df_stats["Significativo (p < 0.05)"] = df_stats["p-value"] < 0.05
+    print(df_stats.to_string(index=False))
