@@ -5,6 +5,7 @@ if IN_COLAB:
 else:
   from tcn_model import TCNModel
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 from tensorflow.keras import Input, Sequential
 from tensorflow.keras.layers import GRU, Bidirectional, Dense, Dropout, LayerNormalization
@@ -25,16 +26,15 @@ class GRUModel(TCNModel):
   task="regression"     -> pct_posible_cola (0 a 1), salida sigmoide + MSE.  (default)
   task="classification" -> hay_cola (pct_posible_cola > threshold), salida sigmoide + BCE.
 
-  Flujo esperado:
-      gru = GRUModel(task="regression", window=48)
+  Flujo esperado (split cronologico 70/15/15, igual que Diseno de Pruebas):
+      gru = GRUModel(task="regression", window=12)
       X_seq, y_seq, meta = gru.prepare(df, df["pct_posible_cola"])
-      # ... TimeSeriesSplit sobre X_seq (ya viene ordenado cronologicamente)
-      X_tr, X_te = gru.scale(X_seq[tr], X_seq[te])     # scaler ajustado SOLO con train
-      model = gru.compile(input_shape=X_tr.shape[1:], v="base")
-      history = model.fit(X_tr, y_tr, epochs=50, batch_size=128, validation_split=0.1,
-                          class_weight=gru.class_weights(y_tr),   # None en regresion
-                          callbacks=[...])
-      df_pred, df_metrics = gru.evaluate(model, history, X_te, y_te)
+      tr, va, te = gru.split_temporal(df, meta)        # 70 / 15 / 15 por fila del dataset
+      X_tr, X_va, X_te = gru.scale(X_seq[tr], X_seq[va], X_seq[te])   # scaler ajustado SOLO con train
+      model = gru.compile(input_shape=X_tr.shape[1:], v="custom", units=32, layers=1)
+      history = model.fit(X_tr, y_seq[tr], validation_data=(X_va, y_seq[va]),
+                          epochs=50, batch_size=128, callbacks=[...])
+      # el test (te) se usa una sola vez, con el modelo final
   """
 
   def __init__(self, task="regression", window=48, threshold=0.5, learning_rate=1e-3):
@@ -49,15 +49,101 @@ class GRUModel(TCNModel):
   # ------------------------------------------------------------------ #
   # Arquitectura
   # ------------------------------------------------------------------ #
-  def compile(self, input_shape=(48, 27), output_shape=1, v="base", **_):
-    """input_shape : (window, n_features), p. ej. X_train.shape[1:]"""
-    if v not in self.versions:
-      raise ValueError(f"Version '{v}' not recognized.")
+  def compile(self, input_shape=(48, 27), output_shape=1, v="base", **cfg):
+    """
+    input_shape : (window, n_features), p. ej. X_train.shape[1:]
+    v           : "base" | "norm" | "bi" (versiones fijas) o "custom" (configurable,
+                  para la escalera de experimentos; ver build_custom).
+    **cfg       : solo con v="custom": units, layers, dropout, dense, norm, bidirectional.
+    """
     if len(input_shape) != 2:
       raise ValueError("input_shape debe ser (window, n_features).")
-    model = self.versions[v](tuple(input_shape), output_shape)
+    if v == "custom":
+      model = self.build_custom(tuple(input_shape), output_shape, **cfg)
+    elif v in self.versions:
+      model = self.versions[v](tuple(input_shape), output_shape)
+    else:
+      raise ValueError(f"Version '{v}' not recognized.")
     self.__compile_model(model)
     return model
+
+  def build_custom(self, input_shape, output_shape=1, units=32, layers=1, dropout=0.0,
+                   dense=0, norm=False, bidirectional=False):
+    """
+    GRU configurable para la escalera de experimentos (de lo simple a lo complejo).
+
+    units         : unidades de la primera capa GRU.
+    layers        : capas GRU apiladas; cada capa extra tiene la mitad de unidades
+                    (64 -> 32), siguiendo la reduccion progresiva de Das (2023).
+    dropout       : Dropout despues de cada capa GRU (0 = sin dropout).
+    dense         : neuronas de una capa Dense(ReLU) antes de la salida (0 = sin capa).
+    norm          : LayerNormalization despues de cada capa GRU.
+    bidirectional : la primera capa GRU es bidireccional. Es valido porque toda la
+                    ventana es pasado (termina en t-1).
+
+    E0 (GRU minima) : units=32, layers=1  -> GRU(32) -> Dense(1, sigmoid)
+    Ref (modelo v1) : units=64, layers=2, dropout=0.2, dense=32  (igual a v="base")
+    """
+    if layers < 1:
+      raise ValueError("layers debe ser >= 1.")
+    name = f"gru_u{units}_l{layers}" + (f"_d{dropout:g}" if dropout else "") \
+        + (f"_dense{dense}" if dense else "") + ("_norm" if norm else "") + ("_bi" if bidirectional else "")
+    model = Sequential(name=name.replace(".", ""))
+    model.add(Input(shape=input_shape))
+    for i in range(layers):
+      n = max(units // (2 ** i), 1)
+      gru = GRU(n, return_sequences=(i < layers - 1))
+      model.add(Bidirectional(gru) if (bidirectional and i == 0) else gru)
+      if norm:
+        model.add(LayerNormalization())
+      if dropout > 0:
+        model.add(Dropout(dropout))
+    if dense > 0:
+      model.add(Dense(dense, activation="relu"))
+    model.add(Dense(output_shape, activation="sigmoid"))
+    return model
+
+  # ------------------------------------------------------------------ #
+  # Split cronologico 70 / 15 / 15
+  # ------------------------------------------------------------------ #
+  def split_temporal(self, df, meta, train_frac=0.70, val_frac=0.15,
+                     ms_col="ms", time_col="bloque_tiempo"):
+    """
+    Divide las ventanas en train / val / test igual que Diseno de Pruebas y que la LSTM:
+    se ordena el dataset por (bloque_tiempo, ms) y se corta por fila en 70 % / 15 % / 15 %.
+    Cada ventana se asigna al conjunto de la fila de su bloque OBJETIVO (t), por lo que
+    el test queda con exactamente los mismos bloques que el de los demas modelos,
+    sin importar el largo de la ventana. La ventana de un bloque de val/test puede traer
+    historia del periodo anterior como entrada; eso no es fuga porque ya ocurrio.
+
+    Returns
+    -------
+    tr, va, te : arreglos de indices sobre X_seq / y_seq / meta.
+    """
+    d = df[[ms_col, time_col]].copy()
+    d[time_col] = pd.to_datetime(d[time_col])
+    d = d.sort_values([time_col, ms_col], kind="stable").reset_index(drop=True)
+    if d.duplicated([ms_col, time_col]).any():
+      raise ValueError("Hay pares (ms, bloque_tiempo) repetidos en el dataset.")
+    n = len(d)
+    n_tr, n_va = int(n * train_frac), int(n * (train_frac + val_frac))
+    d["__pos__"] = np.arange(n)
+
+    m = meta[[ms_col, time_col]].copy()
+    m[time_col] = pd.to_datetime(m[time_col])
+    pos = m.merge(d, on=[ms_col, time_col], how="left")["__pos__"].to_numpy()
+    if np.isnan(pos).any():
+      raise ValueError("Hay ventanas cuyo bloque objetivo no esta en el dataset.")
+
+    tr = np.where(pos < n_tr)[0]
+    va = np.where((pos >= n_tr) & (pos < n_va))[0]
+    te = np.where(pos >= n_va)[0]
+    self.split_info_ = {
+        "filas": {"train": n_tr, "val": n_va - n_tr, "test": n - n_va},
+        "cortes": {"inicio_val": d[time_col].iloc[n_tr], "inicio_test": d[time_col].iloc[n_va]},
+        "ventanas": {"train": len(tr), "val": len(va), "test": len(te)},
+    }
+    return tr, va, te
 
   def __compile_model(self, model):
     # clipnorm evita gradientes explosivos en redes recurrentes
