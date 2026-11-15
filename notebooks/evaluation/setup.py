@@ -34,6 +34,7 @@ MODEL_FILES = {
 }
 MLP_MODEL_FILE = "mlp_classifier.joblib"
 GRU_SCALER_FILE = "gru_E2_w48_scaler.joblib"
+GRU_CONFIG_FILE = "gru_E2_w48_config.json"
 LOGISTIC_THRESHOLD_FILE = "logistic_regresion_threshold.json"
 
 
@@ -54,6 +55,7 @@ class TestData:
     train_end: int
     validation_end: int
     test_rows: np.ndarray
+    gru_decision_threshold: float
     logistic_decision_threshold: float
     target: str = TARGET
     label_threshold: float = LABEL_THRESHOLD
@@ -113,11 +115,48 @@ def _load_logistic_decision_threshold(models_path: Path) -> float:
     return float(threshold)
 
 
+def _load_gru_decision_threshold(models_path: Path) -> float:
+    path = models_path / GRU_CONFIG_FILE
+    if not path.exists():
+        raise FileNotFoundError(
+            f"No se encontró la configuración de umbral GRU: {path}. "
+            "Ejecuta la celda de exportación del notebook GRU."
+        )
+
+    try:
+        config = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"Configuración de umbral GRU inválida: {path}") from exc
+
+    if not isinstance(config, dict):
+        raise ValueError(f"La configuración GRU debe ser un objeto JSON: {path}")
+    threshold = config.get("threshold_decision")
+    label_threshold = config.get("threshold_label")
+    if (
+        isinstance(threshold, bool)
+        or not isinstance(threshold, (int, float))
+        or not np.isfinite(threshold)
+        or not 0 <= threshold <= 1
+    ):
+        raise ValueError(f"Umbral de decisión GRU inválido en {path}.")
+    if (
+        isinstance(label_threshold, bool)
+        or not isinstance(label_threshold, (int, float))
+        or not np.isfinite(label_threshold)
+        or label_threshold != LABEL_THRESHOLD
+    ):
+        raise ValueError(
+            f"La definición de cola en {path} debe ser {LABEL_THRESHOLD}."
+        )
+    return float(threshold)
+
+
 def load_test_data(project_root=None, verbose: bool = True) -> TestData:
     """Carga data/test_data.npz y reconstruye las particiones train/val/test."""
     project_root = Path(project_root) if project_root else _find_project_root()
     split_path = project_root / "data" / "test_data.npz"
     models_path = project_root / "models"
+    gru_decision_threshold = _load_gru_decision_threshold(models_path)
     logistic_decision_threshold = _load_logistic_decision_threshold(models_path)
 
     if not split_path.exists():
@@ -162,6 +201,7 @@ def load_test_data(project_root=None, verbose: bool = True) -> TestData:
         train_end=train_end,
         validation_end=validation_end,
         test_rows=test_rows,
+        gru_decision_threshold=gru_decision_threshold,
         logistic_decision_threshold=logistic_decision_threshold,
     )
 
