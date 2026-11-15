@@ -1,0 +1,5 @@
+{
+  "decision_threshold": 0.2095,
+  "label_threshold": 0.5,
+  "selection_method": "max_f1_validation"
+}
