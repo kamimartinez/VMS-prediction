@@ -18,7 +18,9 @@ La documentación se organiza según las iteraciones realizadas y las fases de C
 1. Entendimiento del negocio (1.0)
 2. Entendimiento de los datos (2.0)
 3. Entendimiento del negocio (1.1)
-4. ...
+4. Entendimiento de los datos (validación, 2.1)
+5. Preparación de los datos (3.0)
+6. Modelado (4.0)
 
 Esta secuencia representa el trabajo documentado hasta el momento. Las siguientes actividades se incorporarán conforme avance el proyecto, incluyendo el modelado, la evaluación y, si corresponde, el despliegue.
 
