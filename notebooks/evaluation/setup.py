@@ -25,6 +25,7 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 TARGET = "pct_posible_cola"
 LABEL_THRESHOLD = 0.5
 SEASON_CATEGORIES = ["invierno", "primavera", "verano", "otoño"]
+MACHINE_CATEGORIES = ["VMS 1", "VMS 2", "VMS 3"]
 
 MODEL_FILES = {
     "Regresión logística": "logistic_regresion.keras",
@@ -36,6 +37,24 @@ MLP_MODEL_FILE = "mlp_classifier.joblib"
 GRU_SCALER_FILE = "gru_E2_w48_scaler.joblib"
 GRU_CONFIG_FILE = "gru_E2_w48_config.json"
 LOGISTIC_THRESHOLD_FILE = "logistic_regresion_threshold.json"
+
+
+def _set_single_machine_categories(frame: pd.DataFrame) -> pd.DataFrame:
+    """Keep one-hot model inputs consistent when inference uses one machine."""
+    frame = frame.copy()
+    categories_by_column = {
+        "ms": sorted(MACHINE_CATEGORIES),
+        "temporada": sorted(SEASON_CATEGORIES),
+    }
+    for column, categories in categories_by_column.items():
+        values = frame[column].astype(str)
+        unknown = set(values.unique()) - set(categories)
+        if unknown:
+            raise ValueError(
+                f"Categorías no reconocidas en {column}: {sorted(unknown)}"
+            )
+        frame[column] = pd.Categorical(values, categories=categories)
+    return frame
 
 
 # --------------------------------------------------------------------------
@@ -361,10 +380,12 @@ def _predict_gru_tcn(data: TestData, models: dict) -> dict:
 
 
 # ----- LSTM ---------------------------------------------------------------
-def _predict_lstm(data: TestData, model):
+def _predict_lstm(data: TestData, model, machine_isolated: bool = False):
     frame = data.full_data.drop(columns="__row_id__").copy()
     frame["ms"] = frame["ms"].astype(str)
     frame["temporada"] = frame["temporada"].astype(str)
+    if machine_isolated:
+        frame = _set_single_machine_categories(frame)
     frame = pd.get_dummies(frame, columns=["ms", "temporada"], dtype="float32")
     frame["cola"] = (frame[data.target] > data.label_threshold).astype(np.float32)
     features = frame.drop(columns="bloque_tiempo")
@@ -396,13 +417,20 @@ def _predict_lstm(data: TestData, model):
     window = int(model.input_shape[1])
     _check_input_shape(model, (window, matrix.shape[1]), "LSTM")
     targets = np.arange(max(data.validation_end, window), len(data.full_data))
+    if machine_isolated:
+        timestamps = pd.to_datetime(data.full_data["bloque_tiempo"])
+        starts = targets - window
+        continuous = (
+            timestamps.iloc[targets].to_numpy() - timestamps.iloc[starts].to_numpy()
+        ) == pd.Timedelta(minutes=30 * window)
+        targets = targets[continuous]
     indices = targets[:, None] - window + np.arange(window)
     scores = _predict_scores(model, matrix[indices])
     return pd.Series(scores, index=targets), (window, matrix.shape[1])
 
 
 # ----- Regresión logística --------------------------------------------------
-def _predict_logistic(data: TestData, model):
+def _predict_logistic(data: TestData, model, machine_isolated: bool = False):
     target = data.target
     frame = data.full_data.sort_values(
         ["ms", "bloque_tiempo"], kind="stable"
@@ -435,6 +463,8 @@ def _predict_logistic(data: TestData, model):
     )
     clean["ms"] = clean["ms"].astype(str)
     clean["temporada"] = clean["temporada"].astype(str)
+    if machine_isolated:
+        clean = _set_single_machine_categories(clean)
     clean = pd.get_dummies(
         clean, columns=["ms", "temporada"], dtype="float32", drop_first=True
     )
@@ -478,7 +508,7 @@ def _predict_logistic(data: TestData, model):
 
 
 # ----- MLP ----------------------------------------------------------------
-def _prepare_mlp_features(data: TestData):
+def _prepare_mlp_features(data: TestData, machine_isolated: bool = False):
     """Reproduce la ingeniería de variables del notebook de entrenamiento MLP."""
     frame = data.full_data.copy()
     frame["produccion_promedio"] = frame["produccion_promedio"].fillna(0)
@@ -539,6 +569,8 @@ def _prepare_mlp_features(data: TestData):
     frame["hora_cos"] = np.cos(2 * np.pi * frame["hora"] / 24)
     frame = frame.sort_values(["bloque_tiempo", "ms"]).reset_index(drop=True)
 
+    if machine_isolated:
+        frame = _set_single_machine_categories(frame)
     features = pd.get_dummies(
         frame, columns=["ms", "temporada"], dtype="float32"
     ).drop(columns=[data.target, "hay_cola", "bloque_tiempo", "__row_id__"])
@@ -548,8 +580,8 @@ def _prepare_mlp_features(data: TestData):
     return features, row_ids
 
 
-def _predict_mlp(data: TestData, model):
-    features, row_ids = _prepare_mlp_features(data)
+def _predict_mlp(data: TestData, model, machine_isolated: bool = False):
+    features, row_ids = _prepare_mlp_features(data, machine_isolated)
     expected_columns = getattr(model, "feature_names_in_", None)
     if expected_columns is not None:
         missing = set(expected_columns) - set(features.columns)
@@ -573,13 +605,26 @@ def _predict_mlp(data: TestData, model):
 # --------------------------------------------------------------------------
 # API pública
 # --------------------------------------------------------------------------
-def prepare_models(data: TestData, verbose: bool = True):
+def prepare_models(
+    data: TestData,
+    verbose: bool = True,
+    *,
+    machine_isolated: bool = False,
+):
     """Carga los 5 modelos y genera sus predicciones sobre test.
+
+    ``machine_isolated`` activa el preprocesamiento para inferencia con una sola
+    máquina. Por defecto conserva la ruta de evaluación global.
 
     Devuelve:
         models: dict nombre -> modelo
         predictions: dict nombre -> pd.Series (índice = __row_id__ de la fila objetivo)
     """
+    if machine_isolated and data.full_data["ms"].nunique(dropna=False) != 1:
+        raise ValueError(
+            "La evaluación aislada requiere datos de exactamente una máquina."
+        )
+
     models = {
         name: _load_model(data.models_path, filename)
         for name, filename in MODEL_FILES.items()
@@ -593,12 +638,14 @@ def prepare_models(data: TestData, verbose: bool = True):
     seq_preds, window_size, n_seq_features = _predict_gru_tcn(data, models)
     predictions.update(seq_preds)
 
-    predictions["LSTM"], lstm_shape = _predict_lstm(data, models["LSTM"])
+    predictions["LSTM"], lstm_shape = _predict_lstm(
+        data, models["LSTM"], machine_isolated
+    )
     predictions["Regresión logística"], n_logistic = _predict_logistic(
-        data, models["Regresión logística"]
+        data, models["Regresión logística"], machine_isolated
     )
     predictions["MLPClassifier"], n_mlp = _predict_mlp(
-        data, models["MLPClassifier"]
+        data, models["MLPClassifier"], machine_isolated
     )
 
     if verbose:
