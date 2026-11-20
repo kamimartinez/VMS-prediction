@@ -1,5 +1,5 @@
 {
-  "decision_threshold": 0.1794883757829666,
+  "decision_threshold": 0.20948471128940582,
   "label_threshold": 0.5,
   "selection_method": "max_f1_validation"
 }

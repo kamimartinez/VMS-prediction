@@ -124,7 +124,8 @@ def evaluate_arima_sarima(data):
     The input is the ``TestData`` returned by ``setup.load_test_data``. This
     uses the same chronological 70/15/15 split, per-robot scaling, fixed
     validation-selected orders/thresholds, and one-step test filtering as the
-    ARIMA-SARIMA modeling notebook.
+    ARIMA-SARIMA modeling notebook. Predictions and metrics are restricted to
+    the exact row IDs in ``data.test_rows``.
     """
     source_path = data.project_root / "data" / "dataset_final_serie_tiempo.parquet"
     if not source_path.exists():
@@ -155,6 +156,18 @@ def evaluate_arima_sarima(data):
             .set_index("bloque_tiempo")
         )
         values = robot_rows[TARGET].astype(float).asfreq(FREQUENCY)
+        ids = row_ids.reindex(
+            pd.MultiIndex.from_arrays(
+                [[robot] * len(test_dates), test_dates],
+                names=["ms", "bloque_tiempo"],
+            )
+        ).to_numpy(dtype=np.int64)
+        test_mask = np.isin(ids, data.test_rows)
+        robot_test_dates = test_dates[test_mask]
+        robot_test_ids = ids[test_mask]
+        if not len(robot_test_dates):
+            raise ValueError(f"No hay filas de test para {robot}.")
+
         scaler = StandardScaler().fit(
             values.loc[values.index < validation_start].to_numpy().reshape(-1, 1)
         )
@@ -172,18 +185,12 @@ def evaluate_arima_sarima(data):
             raw_prediction = scaler.inverse_transform(
                 np.asarray(filtered.fittedvalues).reshape(-1, 1)
             ).ravel()
-            clipped_prediction = np.clip(raw_prediction, 0, 1)
-            actual = values.loc[test_dates].to_numpy()
-            ids = row_ids.reindex(
-                pd.MultiIndex.from_arrays(
-                    [[robot] * len(test_dates), test_dates],
-                    names=["ms", "bloque_tiempo"],
-                )
-            ).to_numpy(dtype=np.int64)
+            clipped_prediction = np.clip(raw_prediction, 0, 1)[test_mask]
+            actual = values.loc[test_dates].to_numpy()[test_mask]
             part = pd.DataFrame(
                 {
-                    "__row_id__": ids,
-                    "bloque_tiempo": test_dates,
+                    "__row_id__": robot_test_ids,
+                    "bloque_tiempo": robot_test_dates,
                     "ms": robot,
                     "Modelo": family,
                     "Real": actual,
@@ -198,34 +205,36 @@ def evaluate_arima_sarima(data):
             prediction_parts.append(part)
 
         actual = values.loc[test_dates].to_numpy()
+        actual_for_test = actual[test_mask]
         for name, lag in (("Persistencia", 1), ("Mismo bloque ayer", 48)):
             predicted_value = values.shift(lag).loc[test_dates].to_numpy()
+            predicted_value = predicted_value[test_mask]
             baseline_parts.append(
                 pd.DataFrame(
                     {
                         "Modelo": name,
-                        "Real": actual,
+                        "Real": actual_for_test,
                         "Prediccion": np.clip(predicted_value, 0, 1),
-                        "Cola_real": (actual > LABEL_THRESHOLD).astype(np.int32),
+                        "Cola_real": (
+                            actual_for_test > LABEL_THRESHOLD
+                        ).astype(np.int32),
                         "Cola_predicha": (
                             predicted_value > LABEL_THRESHOLD
                         ).astype(np.int32),
                     }
                 )
             )
-        baseline_parts.append(
-            pd.DataFrame(
-                {
-                    "Modelo": "Siempre cola",
-                    "Real": actual,
-                    "Prediccion": np.nan,
-                    "Cola_real": (actual > LABEL_THRESHOLD).astype(np.int32),
-                    "Cola_predicha": np.ones(len(actual), dtype=np.int32),
-                }
-            )
-        )
+        baseline_parts.append(pd.DataFrame({
+            "Modelo": "Siempre cola",
+            "Real": actual_for_test,
+            "Prediccion": np.nan,
+            "Cola_real": (actual_for_test > LABEL_THRESHOLD).astype(np.int32),
+            "Cola_predicha": np.ones(len(actual_for_test), dtype=np.int32),
+        }))
 
     predictions = pd.concat(prediction_parts, ignore_index=True)
+    if set(predictions["__row_id__"].unique()) != set(data.test_rows.tolist()):
+        raise ValueError("Las predicciones ARIMA/SARIMA no coinciden con las filas de test.")
     all_predictions = pd.concat(
         [
             predictions[["Modelo", "Real", "Prediccion", "Cola_real", "Cola_predicha"]],
