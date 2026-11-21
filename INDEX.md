@@ -39,7 +39,9 @@ Las rutas de los enlaces son relativas al directorio raíz del repositorio.
 
 ## 05. Evaluation
 
-*Documentación pendiente.*
+| Documento | Última versión | Última modificación en | Enlace |
+|---|---|---|---|
+| Reporte Evaluación | 5.0 | 5.0 | [Ver PDF](crisp-dm/07-evaluation-5.0/reporte-evaluacion.pdf) |
 
 ## 06. Deployment
 
