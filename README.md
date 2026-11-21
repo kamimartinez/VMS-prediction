@@ -21,6 +21,7 @@ La documentación se organiza según las iteraciones realizadas y las fases de C
 4. Entendimiento de los datos (validación, 2.1)
 5. Preparación de los datos (3.0)
 6. Modelado (4.0)
+7. Evaluación (5.0)
 
 Esta secuencia representa el trabajo documentado hasta el momento. Las siguientes actividades se incorporarán conforme avance el proyecto, incluyendo el modelado, la evaluación y, si corresponde, el despliegue.
 
@@ -37,6 +38,7 @@ VMS-prediction/
 │   ├── 04-data-understanding-2.1/
 │   ├── 05-data-preparation-3.0/
 │   └── 06-modeling-4.0/
+│   └── 07-evaluation-5.0/
 ├── docs/
 │   ├── big-data/
 │   └── data-privacy/
