@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import (
     accuracy_score,
+    average_precision_score,
     precision_score,
     recall_score,
     f1_score,
@@ -113,7 +114,8 @@ class LSTMModel(BaseModel):
     )
     
     model.compile(
-            optimizer="adam",
+            optimizer=Adam(
+              clipnorm=1.0),
             loss="binary_crossentropy",
             metrics=[
               "accuracy",
@@ -192,13 +194,15 @@ class LSTMModel(BaseModel):
 
     try:
         auc = roc_auc_score(y_true, y_probs)
+        pr_auc = average_precision_score(y_true, y_probs)
     except ValueError:
         auc = np.nan
+        pr_auc = np.nan
 
     df_summary_metrics = pd.DataFrame(
         {
-            "Metric": ["Accuracy", "Precision", "Recall", "F1-Score", "ROC-AUC"],
-            "Value": [acc, prec, rec, f1, auc],
+            "Metric": ["Accuracy", "Precision", "Recall", "F1-Score", "ROC-AUC", "PR-AUC"],
+            "Value": [acc, prec, rec, f1, auc, pr_auc],
         }
     )
 
