@@ -53,7 +53,7 @@ Los modelos se encuentran organizados en la carpeta `/notebooks/modeling`. La es
 - `<model>.py`: Contiene la implementación lógica y arquitectura del modelo.
 - `<notebook>.ipynb`: Gestiona la carga de datos, transformaciones adicionales, partición del conjunto de datos (Train/Validation/Test) y la ejecución del entrenamiento.
 
-Al finalizar el entrenamiento de un modelo, el estado compilado se exporta automáticamente como un archivo `.keras` dentro de la carpeta `/models/`, el cual es requerido para la etapa de validación.
+Al finalizar el entrenamiento de un modelo, el estado compilado se exporta automáticamente como un archivo `.keras` dentro de su subcarpeta en `/models/` (por ejemplo, `/models/lstm/` o `/models/tcn/`), el cual es requerido para la etapa de validación.
 
 ### Paso 4: Ejecución de Pruebas y Evaluación
 
