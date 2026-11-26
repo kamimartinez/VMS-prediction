@@ -1,0 +1,61 @@
+{
+  "task": "classification",
+  "window": 48,
+  "version": "base",
+  "levels": null,
+  "threshold": 0.5,
+  "target": "pct_posible_cola",
+  "feature_names": [
+    "total_ordenios",
+    "produccion_promedio",
+    "duracion_total_min",
+    "patadas_totales",
+    "desviaciones_leche_totales",
+    "ordenios_con_lavado",
+    "pct_primer_parto",
+    "pct_fresca",
+    "pct_alta",
+    "pct_baja",
+    "pct_extendida",
+    "hubo_ordenios",
+    "pct_ocupacion_robot",
+    "hubo_lavado",
+    "ordenios_otros_robots",
+    "hora",
+    "dia_semana",
+    "min_desde_alimento",
+    "vacas_activas_dia",
+    "sin_etapa",
+    "pct_posible_cola",
+    "temp_invierno",
+    "temp_primavera",
+    "temp_verano",
+    "temp_otoño",
+    "hora_sin",
+    "hora_cos"
+  ],
+  "input_shape": [
+    48,
+    27
+  ],
+  "shift_target": true,
+  "metrics_val": {
+    "Accuracy": 0.6099795956223335,
+    "Precision": 0.5768618714194781,
+    "Recall": 0.31579405871591604,
+    "F1": 0.4081517761639363,
+    "AUC": 0.6638983182815931
+  },
+  "metrics_test": {
+    "Accuracy": 0.6177387046516803,
+    "Precision": 0.7109742259685524,
+    "Recall": 0.5655341370640191,
+    "F1": 0.6299687600991059,
+    "AUC": 0.6952183059461708
+  },
+  "split": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  }
+}
