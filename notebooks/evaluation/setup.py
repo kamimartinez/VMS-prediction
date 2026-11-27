@@ -28,15 +28,17 @@ SEASON_CATEGORIES = ["invierno", "primavera", "verano", "otoño"]
 MACHINE_CATEGORIES = ["VMS 1", "VMS 2", "VMS 3"]
 
 MODEL_FILES = {
-    "Regresión logística": "logistic_regresion.keras",
-    "LSTM": "lstm_model.keras",
-    "GRU": "gru_E2_w48.keras",
-    "TCN": "tcn_classification_base_w48.keras",
+    "Regresión logística": Path("logistic-regression") / "logistic_regresion.keras",
+    "LSTM": Path("lstm") / "lstm_model.keras",
+    "GRU": Path("gru") / "gru_E2_w48.keras",
+    "TCN": Path("tcn") / "tcn_classification_base_w48.keras",
 }
-MLP_MODEL_FILE = "mlp_classifier.joblib"
-GRU_SCALER_FILE = "gru_E2_w48_scaler.joblib"
-GRU_CONFIG_FILE = "gru_E2_w48_config.json"
-LOGISTIC_THRESHOLD_FILE = "logistic_regresion_threshold.json"
+MLP_MODEL_FILE = Path("mlp") / "mlp_classifier.joblib"
+GRU_SCALER_FILE = Path("gru") / "gru_E2_w48_scaler.joblib"
+GRU_CONFIG_FILE = Path("gru") / "gru_E2_w48_config.json"
+LOGISTIC_THRESHOLD_FILE = (
+    Path("logistic-regression") / "logistic_regresion_threshold.json"
+)
 
 
 def _set_single_machine_categories(frame: pd.DataFrame) -> pd.DataFrame:
@@ -230,8 +232,9 @@ def load_test_data(project_root=None, verbose: bool = True) -> TestData:
         print(f"Test cronológico: {test['bloque_tiempo'].min()} -> "
               f"{test['bloque_tiempo'].max()}")
         available_models = sorted(
-            [p.name for p in models_path.glob("*.keras")]
-            + [p.name for p in models_path.glob("*.joblib")]
+            p.relative_to(models_path).as_posix()
+            for pattern in ("*.keras", "*.joblib")
+            for p in models_path.rglob(pattern)
         )
         print("Modelos disponibles:", available_models)
     return data

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Predicción de colas de ordeño</title>
+  <style>
+    body { font: 16px system-ui, sans-serif; max-width: 900px; margin: 3rem auto; padding: 0 1rem; color: #17212b; }
+    main { border: 1px solid #d5dce3; border-radius: 12px; padding: 1.5rem; }
+    label { display: block; font-weight: 600; margin: 1rem 0 .4rem; }
+    select, input, button { font: inherit; }
+    select, input[type="file"] { width: 100%; padding: .6rem 0; }
+    button { background: #1769aa; color: white; border: 0; border-radius: 6px; padding: .7rem 1rem; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: wait; }
+    progress { width: 100%; height: 1rem; }
+    pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #f3f6f8; padding: 1rem; border-radius: 6px; }
+    .hint { color: #526170; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Predicción de colas de ordeño</h1>
+    <p class="hint">Sube uno o varios archivos Milk production sessions (.xlsx o .xls). La lectura se procesa por lotes.</p>
+    <form id="upload-form">
+      <label for="model">Modelo</label>
+      <select id="model" name="model" required>
+        <option value="gru">GRU</option>
+        <option value="logistic_regression">Regresión logística</option>
+      </select>
+      <label for="files">Archivos Excel</label>
+      <input id="files" name="files" type="file" accept=".xlsx,.xls" multiple required>
+      <p id="file-count" class="hint">Selecciona tus archivos.</p>
+      <button id="submit" type="submit">Preparar y predecir</button>
+    </form>
+    <section id="progress-section" hidden>
+      <h2>Procesamiento</h2>
+      <progress id="progress" max="100" value="0"></progress>
+      <p id="status"></p>
+    </section>
+    <section id="report" hidden>
+      <h2>Resultados</h2>
+      <pre id="summary"></pre>
+      <a id="download" download="predicciones.json">Descargar predicciones (JSON)</a>
+    </section>
+  </main>
+  <script>
+    const form = document.querySelector("#upload-form");
+    const filesInput = document.querySelector("#files");
+    const submitButton = document.querySelector("#submit");
+    const progressSection = document.querySelector("#progress-section");
+    const progressBar = document.querySelector("#progress");
+    const statusText = document.querySelector("#status");
+    const reportSection = document.querySelector("#report");
+    const summary = document.querySelector("#summary");
+    const download = document.querySelector("#download");
+
+    filesInput.addEventListener("change", () => {
+      document.querySelector("#file-count").textContent =
+        `${filesInput.files.length} archivo(s) seleccionado(s). Máximo: 500.`;
+    });
+
+    async function readJson(response) {
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.detail || "Ocurrió un error.");
+      return body;
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (filesInput.files.length > 500) {
+        statusText.textContent = "Selecciona como máximo 500 archivos.";
+        progressSection.hidden = false;
+        return;
+      }
+
+      submitButton.disabled = true;
+      reportSection.hidden = true;
+      progressSection.hidden = false;
+      progressBar.value = 0;
+      statusText.textContent = "Subiendo archivos...";
+      try {
+        const body = new FormData();
+        body.append("model", document.querySelector("#model").value);
+        for (const file of filesInput.files) body.append("files", file);
+        const job = await readJson(await fetch("/api/upload", {
+          method: "POST",
+          body,
+        }));
+
+        let current;
+        do {
+          await new Promise(resolve => setTimeout(resolve, 1200));
+          current = await readJson(await fetch(`/api/jobs/${job.id}`));
+          progressBar.value = current.progress;
+          statusText.textContent = `${current.status} (${current.progress}%)`;
+        } while (["pending", "processing"].includes(current.status));
+
+        if (current.status === "failed") {
+          throw new Error(current.error || "No se pudo completar el procesamiento.");
+        }
+
+        const result = await readJson(
+          await fetch(`/api/jobs/${job.id}/results`)
+        );
+        summary.textContent = JSON.stringify(result.summary, null, 2);
+        download.href = URL.createObjectURL(
+          new Blob([JSON.stringify(result, null, 2)], { type: "application/json" })
+        );
+        reportSection.hidden = false;
+      } catch (error) {
+        statusText.textContent = error.message;
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
