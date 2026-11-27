@@ -90,6 +90,17 @@ En este espacio se incorporará el **Plan de Valor Ganado (PVG)** del proyecto, 
 
 Los avances, resultados y cambios en la planificación se actualizarán conforme se desarrollen las actividades del proyecto.
 
+## Aplicación web de predicciones
+
+El servidor acepta múltiples archivos Milk production sessions en formato XLS/XLSX, prepara los datos por lotes y permite elegir entre los modelos GRU y Regresión logística. Desde la raíz del repositorio, instala las dependencias y ejecuta la API:
+
+```powershell
+python -m pip install -r server/requirements.txt
+python -m uvicorn backend.main:app --app-dir server --reload
+```
+
+Abre `http://127.0.0.1:8000` para cargar archivos y consultar el reporte. Los modelos y artefactos deben estar disponibles en `models/`; los archivos de trabajo se guardan bajo `server/storage/`.
+
 ## Documentación
 
 El repositorio contiene documentación metodológica, notebooks, datos, resultados y otros archivos relacionados con el desarrollo del proyecto. Para explorar su contenido, se debe utilizar `README.md` como guía general de la estructura y `INDEX.md` como referencia para localizar los documentos metodológicos de CRISP-DM.

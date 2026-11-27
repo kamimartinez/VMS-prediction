@@ -1,0 +1,1458 @@
+{
+  "job_id": "49a7c2fb-3480-4a44-a233-706eeb93683e",
+  "created_at": "2026-11-27T01:07:13.475554+00:00",
+  "summary": {
+    "model": "logistic_regression",
+    "input_files": 1,
+    "feature_rows": 180,
+    "prediction_rows": 177,
+    "predicted_queue_rows": 0,
+    "decision_threshold": 0.20948471128940582,
+    "mean_score": 0.003869133535772562,
+    "comparable_rows": 176,
+    "metrics": {
+      "accuracy": 1.0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "by_machine": [
+      {
+        "ms": "VMS 1",
+        "prediction_rows": 59,
+        "predicted_queue_rows": 0,
+        "mean_score": 0.004332803189754486
+      },
+      {
+        "ms": "VMS 2",
+        "prediction_rows": 59,
+        "predicted_queue_rows": 0,
+        "mean_score": 0.0038197569083422422
+      },
+      {
+        "ms": "VMS 3",
+        "prediction_rows": 59,
+        "predicted_queue_rows": 0,
+        "mean_score": 0.003454840276390314
+      }
+    ]
+  },
+  "predictions": [
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T00:30:00.000",
+      "score": 0.00429055,
+      "predicted_probability": 0.00429055,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T00:30:00.000",
+      "score": 0.003782481,
+      "predicted_probability": 0.003782481,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T00:30:00.000",
+      "score": 0.0034211101,
+      "predicted_probability": 0.0034211101,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T01:00:00.000",
+      "score": 0.0043048598,
+      "predicted_probability": 0.0043048598,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T01:00:00.000",
+      "score": 0.0037951048,
+      "predicted_probability": 0.0037951048,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T01:00:00.000",
+      "score": 0.0034325288,
+      "predicted_probability": 0.0034325288,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T01:30:00.000",
+      "score": 0.0042659407,
+      "predicted_probability": 0.0042659407,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T01:30:00.000",
+      "score": 0.0037607767,
+      "predicted_probability": 0.0037607767,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T01:30:00.000",
+      "score": 0.0034014692,
+      "predicted_probability": 0.0034014692,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T02:00:00.000",
+      "score": 0.004263768,
+      "predicted_probability": 0.004263768,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T02:00:00.000",
+      "score": 0.0037588584,
+      "predicted_probability": 0.0037588584,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T02:00:00.000",
+      "score": 0.0033997369,
+      "predicted_probability": 0.0033997369,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T02:30:00.000",
+      "score": 0.0042252191,
+      "predicted_probability": 0.0042252191,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T02:30:00.000",
+      "score": 0.0037248572,
+      "predicted_probability": 0.0037248572,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T02:30:00.000",
+      "score": 0.0033689728,
+      "predicted_probability": 0.0033689728,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T03:00:00.000",
+      "score": 0.004204425,
+      "predicted_probability": 0.004204425,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T03:00:00.000",
+      "score": 0.0037065167,
+      "predicted_probability": 0.0037065167,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T03:00:00.000",
+      "score": 0.0033523792,
+      "predicted_probability": 0.0033523792,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T03:30:00.000",
+      "score": 0.0041664103,
+      "predicted_probability": 0.0041664103,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T03:30:00.000",
+      "score": 0.003672987,
+      "predicted_probability": 0.003672987,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T03:30:00.000",
+      "score": 0.0033220423,
+      "predicted_probability": 0.0033220423,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T04:00:00.000",
+      "score": 0.004126437,
+      "predicted_probability": 0.004126437,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T04:00:00.000",
+      "score": 0.0036377301,
+      "predicted_probability": 0.0036377301,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T04:00:00.000",
+      "score": 0.0032901429,
+      "predicted_probability": 0.0032901429,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T04:30:00.000",
+      "score": 0.004089124,
+      "predicted_probability": 0.004089124,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T04:30:00.000",
+      "score": 0.0036048205,
+      "predicted_probability": 0.0036048205,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T04:30:00.000",
+      "score": 0.0032603678,
+      "predicted_probability": 0.0032603678,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T05:00:00.000",
+      "score": 0.0040310258,
+      "predicted_probability": 0.0040310258,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T05:00:00.000",
+      "score": 0.0035535775,
+      "predicted_probability": 0.0035535775,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T05:00:00.000",
+      "score": 0.0032140038,
+      "predicted_probability": 0.0032140038,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T05:30:00.000",
+      "score": 0.0039945729,
+      "predicted_probability": 0.0039945729,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T05:30:00.000",
+      "score": 0.0035214268,
+      "predicted_probability": 0.0035214268,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T05:30:00.000",
+      "score": 0.0031849155,
+      "predicted_probability": 0.0031849155,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T06:00:00.000",
+      "score": 0.0039208601,
+      "predicted_probability": 0.0039208601,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T06:00:00.000",
+      "score": 0.0034564161,
+      "predicted_probability": 0.0034564161,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T06:00:00.000",
+      "score": 0.0031260964,
+      "predicted_probability": 0.0031260964,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T06:30:00.000",
+      "score": 0.0038853993,
+      "predicted_probability": 0.0038853993,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T06:30:00.000",
+      "score": 0.0034251411,
+      "predicted_probability": 0.0034251411,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T06:30:00.000",
+      "score": 0.0030978012,
+      "predicted_probability": 0.0030978012,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T07:00:00.000",
+      "score": 0.0037997444,
+      "predicted_probability": 0.0037997444,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T07:00:00.000",
+      "score": 0.0033495985,
+      "predicted_probability": 0.0033495985,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T07:00:00.000",
+      "score": 0.0030294592,
+      "predicted_probability": 0.0030294592,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T07:30:00.000",
+      "score": 0.0051273671,
+      "predicted_probability": 0.0051273671,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T07:30:00.000",
+      "score": 0.0045206547,
+      "predicted_probability": 0.0045206547,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T07:30:00.000",
+      "score": 0.0040890463,
+      "predicted_probability": 0.0040890463,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T08:00:00.000",
+      "score": 0.0050006476,
+      "predicted_probability": 0.0050006476,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T08:00:00.000",
+      "score": 0.0044088634,
+      "predicted_probability": 0.0044088634,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T08:00:00.000",
+      "score": 0.0039878893,
+      "predicted_probability": 0.0039878893,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T08:30:00.000",
+      "score": 0.0049554692,
+      "predicted_probability": 0.0049554692,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T08:30:00.000",
+      "score": 0.0043690079,
+      "predicted_probability": 0.0043690079,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T08:30:00.000",
+      "score": 0.0039518247,
+      "predicted_probability": 0.0039518247,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T09:00:00.000",
+      "score": 0.0048248973,
+      "predicted_probability": 0.0048248973,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T09:00:00.000",
+      "score": 0.0042538233,
+      "predicted_probability": 0.0042538233,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T09:00:00.000",
+      "score": 0.0038475955,
+      "predicted_probability": 0.0038475955,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T09:30:00.000",
+      "score": 0.0047812993,
+      "predicted_probability": 0.0047812993,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T09:30:00.000",
+      "score": 0.0042153634,
+      "predicted_probability": 0.0042153634,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T09:30:00.000",
+      "score": 0.003812795,
+      "predicted_probability": 0.003812795,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T10:00:00.000",
+      "score": 0.0046530953,
+      "predicted_probability": 0.0046530953,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T10:00:00.000",
+      "score": 0.004102272,
+      "predicted_probability": 0.004102272,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T10:00:00.000",
+      "score": 0.0037104595,
+      "predicted_probability": 0.0037104595,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T10:30:00.000",
+      "score": 0.0046110428,
+      "predicted_probability": 0.0046110428,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T10:30:00.000",
+      "score": 0.0040651751,
+      "predicted_probability": 0.0040651751,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T10:30:00.000",
+      "score": 0.0036768944,
+      "predicted_probability": 0.0036768944,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T11:00:00.000",
+      "score": 0.0044907969,
+      "predicted_probability": 0.0044907969,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T11:00:00.000",
+      "score": 0.00395911,
+      "predicted_probability": 0.00395911,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T11:00:00.000",
+      "score": 0.0035809234,
+      "predicted_probability": 0.0035809234,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T11:30:00.000",
+      "score": 0.0044502039,
+      "predicted_probability": 0.0044502039,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T11:30:00.000",
+      "score": 0.0039233044,
+      "predicted_probability": 0.0039233044,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T11:30:00.000",
+      "score": 0.003548526,
+      "predicted_probability": 0.003548526,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T12:00:00.000",
+      "score": 0.0043425672,
+      "predicted_probability": 0.0043425672,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T12:00:00.000",
+      "score": 0.0038283626,
+      "predicted_probability": 0.0038283626,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T12:00:00.000",
+      "score": 0.0034626233,
+      "predicted_probability": 0.0034626233,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T12:30:00.000",
+      "score": 0.0043033087,
+      "predicted_probability": 0.0043033087,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T12:30:00.000",
+      "score": 0.0037937348,
+      "predicted_probability": 0.0037937348,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T12:30:00.000",
+      "score": 0.0034312925,
+      "predicted_probability": 0.0034312925,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T13:00:00.000",
+      "score": 0.0042118025,
+      "predicted_probability": 0.0042118025,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T13:00:00.000",
+      "score": 0.0037130236,
+      "predicted_probability": 0.0037130236,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T13:00:00.000",
+      "score": 0.0033582647,
+      "predicted_probability": 0.0033582647,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T13:30:00.000",
+      "score": 0.0041737212,
+      "predicted_probability": 0.0041737212,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T13:30:00.000",
+      "score": 0.0036794355,
+      "predicted_probability": 0.0036794355,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T13:30:00.000",
+      "score": 0.0033278749,
+      "predicted_probability": 0.0033278749,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T14:00:00.000",
+      "score": 0.004100671,
+      "predicted_probability": 0.004100671,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T14:00:00.000",
+      "score": 0.0036150066,
+      "predicted_probability": 0.0036150066,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T14:00:00.000",
+      "score": 0.0032695821,
+      "predicted_probability": 0.0032695821,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T14:30:00.000",
+      "score": 0.0046145171,
+      "predicted_probability": 0.0046145171,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T14:30:00.000",
+      "score": 0.0040682442,
+      "predicted_probability": 0.0040682442,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T14:30:00.000",
+      "score": 0.0036796697,
+      "predicted_probability": 0.0036796697,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T15:00:00.000",
+      "score": 0.0045538838,
+      "predicted_probability": 0.0045538838,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T15:00:00.000",
+      "score": 0.0040147565,
+      "predicted_probability": 0.0040147565,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T15:00:00.000",
+      "score": 0.0036312756,
+      "predicted_probability": 0.0036312756,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T15:30:00.000",
+      "score": 0.0045127217,
+      "predicted_probability": 0.0045127217,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T15:30:00.000",
+      "score": 0.0039784494,
+      "predicted_probability": 0.0039784494,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T15:30:00.000",
+      "score": 0.0035984239,
+      "predicted_probability": 0.0035984239,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T16:00:00.000",
+      "score": 0.0044744248,
+      "predicted_probability": 0.0044744248,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T16:00:00.000",
+      "score": 0.0039446685,
+      "predicted_probability": 0.0039446685,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T16:00:00.000",
+      "score": 0.0035678581,
+      "predicted_probability": 0.0035678581,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T16:30:00.000",
+      "score": 0.0044339797,
+      "predicted_probability": 0.0044339797,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T16:30:00.000",
+      "score": 0.0039089932,
+      "predicted_probability": 0.0039089932,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T16:30:00.000",
+      "score": 0.0035355785,
+      "predicted_probability": 0.0035355785,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T17:00:00.000",
+      "score": 0.0044169165,
+      "predicted_probability": 0.0044169165,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T17:00:00.000",
+      "score": 0.0038939423,
+      "predicted_probability": 0.0038939423,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T17:00:00.000",
+      "score": 0.0035219605,
+      "predicted_probability": 0.0035219605,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T17:30:00.000",
+      "score": 0.0043769889,
+      "predicted_probability": 0.0043769889,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T17:30:00.000",
+      "score": 0.0038587237,
+      "predicted_probability": 0.0038587237,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T17:30:00.000",
+      "score": 0.0034900925,
+      "predicted_probability": 0.0034900925,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T18:00:00.000",
+      "score": 0.0043789838,
+      "predicted_probability": 0.0043789838,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T18:00:00.000",
+      "score": 0.0038604818,
+      "predicted_probability": 0.0038604818,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T18:00:00.000",
+      "score": 0.0034916836,
+      "predicted_probability": 0.0034916836,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T18:30:00.000",
+      "score": 0.0043393974,
+      "predicted_probability": 0.0043393974,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T18:30:00.000",
+      "score": 0.0038255651,
+      "predicted_probability": 0.0038255651,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T18:30:00.000",
+      "score": 0.0034600906,
+      "predicted_probability": 0.0034600906,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T19:00:00.000",
+      "score": 0.0043573002,
+      "predicted_probability": 0.0043573002,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T19:00:00.000",
+      "score": 0.0038413578,
+      "predicted_probability": 0.0038413578,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T19:00:00.000",
+      "score": 0.0034743799,
+      "predicted_probability": 0.0034743799,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T19:30:00.000",
+      "score": 0.004317909,
+      "predicted_probability": 0.004317909,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T19:30:00.000",
+      "score": 0.0038066129,
+      "predicted_probability": 0.0038066129,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T19:30:00.000",
+      "score": 0.0034429431,
+      "predicted_probability": 0.0034429431,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T20:00:00.000",
+      "score": 0.004347716,
+      "predicted_probability": 0.004347716,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T20:00:00.000",
+      "score": 0.0038329063,
+      "predicted_probability": 0.0038329063,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T20:00:00.000",
+      "score": 0.003466733,
+      "predicted_probability": 0.003466733,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T20:30:00.000",
+      "score": 0.0043084114,
+      "predicted_probability": 0.0043084114,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T20:30:00.000",
+      "score": 0.0037982375,
+      "predicted_probability": 0.0037982375,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T20:30:00.000",
+      "score": 0.0034353649,
+      "predicted_probability": 0.0034353649,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T21:00:00.000",
+      "score": 0.0043454301,
+      "predicted_probability": 0.0043454301,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T21:00:00.000",
+      "score": 0.0038308876,
+      "predicted_probability": 0.0038308876,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T21:00:00.000",
+      "score": 0.0034649065,
+      "predicted_probability": 0.0034649065,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T21:30:00.000",
+      "score": 0.0043061455,
+      "predicted_probability": 0.0043061455,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T21:30:00.000",
+      "score": 0.0037962373,
+      "predicted_probability": 0.0037962373,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T21:30:00.000",
+      "score": 0.0034335549,
+      "predicted_probability": 0.0034335549,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T22:00:00.000",
+      "score": 0.0043451944,
+      "predicted_probability": 0.0043451944,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T22:00:00.000",
+      "score": 0.0038306797,
+      "predicted_probability": 0.0038306797,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T22:00:00.000",
+      "score": 0.0034647188,
+      "predicted_probability": 0.0034647188,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T22:30:00.000",
+      "score": 0.0043059122,
+      "predicted_probability": 0.0043059122,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T22:30:00.000",
+      "score": 0.0037960315,
+      "predicted_probability": 0.0037960315,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T22:30:00.000",
+      "score": 0.0034333691,
+      "predicted_probability": 0.0034333691,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T23:00:00.000",
+      "score": 0.0043416545,
+      "predicted_probability": 0.0043416545,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T23:00:00.000",
+      "score": 0.0038275572,
+      "predicted_probability": 0.0038275572,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T23:00:00.000",
+      "score": 0.0034618932,
+      "predicted_probability": 0.0034618932,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-01T23:30:00.000",
+      "score": 0.0043024039,
+      "predicted_probability": 0.0043024039,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-01T23:30:00.000",
+      "score": 0.0037929346,
+      "predicted_probability": 0.0037929346,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-01T23:30:00.000",
+      "score": 0.0034305686,
+      "predicted_probability": 0.0034305686,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-02T00:00:00.000",
+      "score": 0.0043613939,
+      "predicted_probability": 0.0043613939,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-02T00:00:00.000",
+      "score": 0.0038449687,
+      "predicted_probability": 0.0038449687,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-02T00:00:00.000",
+      "score": 0.0034776456,
+      "predicted_probability": 0.0034776456,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-02T00:30:00.000",
+      "score": 0.0043219659,
+      "predicted_probability": 0.0043219659,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-02T00:30:00.000",
+      "score": 0.0038101915,
+      "predicted_probability": 0.0038101915,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-02T00:30:00.000",
+      "score": 0.0034461787,
+      "predicted_probability": 0.0034461787,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-02T01:00:00.000",
+      "score": 0.0043363781,
+      "predicted_probability": 0.0043363781,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-02T01:00:00.000",
+      "score": 0.0038229036,
+      "predicted_probability": 0.0038229036,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-02T01:00:00.000",
+      "score": 0.0034576843,
+      "predicted_probability": 0.0034576843,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-02T01:30:00.000",
+      "score": 0.0042971754,
+      "predicted_probability": 0.0042971754,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-02T01:30:00.000",
+      "score": 0.003788325,
+      "predicted_probability": 0.003788325,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-02T01:30:00.000",
+      "score": 0.0034263977,
+      "predicted_probability": 0.0034263977,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-02T02:00:00.000",
+      "score": 0.0042949868,
+      "predicted_probability": 0.0042949868,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-02T02:00:00.000",
+      "score": 0.003786393,
+      "predicted_probability": 0.003786393,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-02T02:00:00.000",
+      "score": 0.0034246494,
+      "predicted_probability": 0.0034246494,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-02T02:30:00.000",
+      "score": 0.0042561563,
+      "predicted_probability": 0.0042561563,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-02T02:30:00.000",
+      "score": 0.0037521434,
+      "predicted_probability": 0.0037521434,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-02T02:30:00.000",
+      "score": 0.0033936612,
+      "predicted_probability": 0.0033936612,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-02T03:00:00.000",
+      "score": 0.0042352132,
+      "predicted_probability": 0.0042352132,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-02T03:00:00.000",
+      "score": 0.0037336727,
+      "predicted_probability": 0.0037336727,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-02T03:00:00.000",
+      "score": 0.0033769459,
+      "predicted_probability": 0.0033769459,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-02T03:30:00.000",
+      "score": 0.0041969214,
+      "predicted_probability": 0.0041969214,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-02T03:30:00.000",
+      "score": 0.0036998985,
+      "predicted_probability": 0.0036998985,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-02T03:30:00.000",
+      "score": 0.0033463875,
+      "predicted_probability": 0.0033463875,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-02T04:00:00.000",
+      "score": 0.0041566561,
+      "predicted_probability": 0.0041566561,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-02T04:00:00.000",
+      "score": 0.0036643841,
+      "predicted_probability": 0.0036643841,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-02T04:00:00.000",
+      "score": 0.0033142555,
+      "predicted_probability": 0.0033142555,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-02T04:30:00.000",
+      "score": 0.0041190716,
+      "predicted_probability": 0.0041190716,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-02T04:30:00.000",
+      "score": 0.0036312342,
+      "predicted_probability": 0.0036312342,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-02T04:30:00.000",
+      "score": 0.0032842623,
+      "predicted_probability": 0.0032842623,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-02T05:00:00.000",
+      "score": 0.0040605464,
+      "predicted_probability": 0.0040605464,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-02T05:00:00.000",
+      "score": 0.0035796154,
+      "predicted_probability": 0.0035796154,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-02T05:00:00.000",
+      "score": 0.003237563,
+      "predicted_probability": 0.003237563,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 1",
+      "bloque_tiempo": "2025-03-02T05:30:00.000",
+      "score": 0.0040238271,
+      "predicted_probability": 0.0040238271,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 2",
+      "bloque_tiempo": "2025-03-02T05:30:00.000",
+      "score": 0.0035472296,
+      "predicted_probability": 0.0035472296,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    },
+    {
+      "ms": "VMS 3",
+      "bloque_tiempo": "2025-03-02T05:30:00.000",
+      "score": 0.0032082621,
+      "predicted_probability": 0.0032082621,
+      "predicted_queue": 0,
+      "decision_threshold": 0.2094847113
+    }
+  ]
+}
