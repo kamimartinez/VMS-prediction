@@ -1,9 +1,5 @@
 import sys
 IN_COLAB = "google.colab" in sys.modules
-if IN_COLAB:
-  from modeling.model_base import BaseModel
-else:
-  from model_base import BaseModel
 import tensorflow as tf
 from tensorflow.keras import Input, Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout, LayerNormalization
@@ -25,7 +21,7 @@ from sklearn.metrics import (
 )
 
 
-class LSTMModel(BaseModel):
+class LSTMModel():
   def __init__(self):
     pass
     self.versions = {
