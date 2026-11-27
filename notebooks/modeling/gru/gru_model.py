@@ -1,9 +1,9 @@
 import sys
 IN_COLAB = "google.colab" in sys.modules
-if IN_COLAB:
-  from modeling.tcn_model import TCNModel
-else:
-  from tcn_model import TCNModel
+try:
+  from tcn_model import TCNModel              # notebooks/modeling/tcn en sys.path
+except ImportError:
+  from modeling.tcn.tcn_model import TCNModel
 import numpy as np
 import pandas as pd
 import tensorflow as tf
