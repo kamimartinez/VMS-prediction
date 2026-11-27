@@ -79,6 +79,7 @@ class TCNModel(BaseModel):
       y=None,
       window=None,
       shift_target=True,
+      horizon=1,
       ms_col="ms",
       time_col="bloque_tiempo",
       step_minutes=30,
@@ -102,6 +103,11 @@ class TCNModel(BaseModel):
                  (obligatorio con el dataset de serie de tiempo para no filtrar informacion).
         False -> la ventana termina en t. Usar solo si X no tiene variables mecanicas
                  del mismo bloque (p. ej. dataset de regresion).
+    horizon : int, default=1
+        Solo con shift_target=True. Cuántos bloques adelante del final de la ventana
+        está el bloque objetivo: la ventana termina en t-horizon y la etiqueta es la
+        del bloque t. 1 = siguiente bloque (30 min); 48 = mismo bloque del día
+        siguiente (24 h).
     check_continuity : bool
         Descarta ventanas que cruzan huecos de tiempo (necesario en el dataset de
         regresion, que tiene huecos entre bloques).
@@ -115,6 +121,11 @@ class TCNModel(BaseModel):
             TimeSeriesSplit.
     """
     window = window or self.window
+    horizon = int(horizon)
+    if horizon < 1:
+      raise ValueError("horizon debe ser >= 1.")
+    if horizon != 1 and not shift_target:
+      raise ValueError("horizon > 1 solo se puede usar con shift_target=True.")
     if not isinstance(X, pd.DataFrame):
       raise TypeError("X debe ser un DataFrame con las columnas 'ms' y 'bloque_tiempo'.")
     for c in (ms_col, time_col):
@@ -154,7 +165,7 @@ class TCNModel(BaseModel):
     Xs, ys, metas = [], [], []
     for robot, g in df.sort_values([ms_col, time_col]).groupby(ms_col, sort=False):
       n = len(g)
-      if n <= window:
+      if n < window + horizon:
         continue
       feats = g[feature_cols].to_numpy(dtype=np.float32)
       times = g[time_col].to_numpy()
@@ -163,8 +174,9 @@ class TCNModel(BaseModel):
       wins = sliding_window_view(feats, window, axis=0).transpose(0, 2, 1)
 
       if shift_target:
-        start = np.arange(0, n - window)
-        tgt = start + window
+        # la ventana cubre [start, start+window-1]; el objetivo está `horizon` bloques después
+        start = np.arange(0, n - window - horizon + 1)
+        tgt = start + window - 1 + horizon
       else:
         start = np.arange(0, n - window + 1)
         tgt = start + window - 1
