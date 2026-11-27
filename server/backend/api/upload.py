@@ -13,11 +13,11 @@ from fastapi import (
     HTTPException
 )
 
-from backend.schemas.jobs import ProcessingJob, FileJob
-from backend.services.storage import save_file
-from backend.services.job_store import create_job, get_job
-from backend.services.pipeline import run_pipeline
-from backend.config import (
+from schemas.jobs import ProcessingJob, FileJob
+from services.storage import save_file
+from services.job_store import create_job, get_job
+from services.pipeline import run_pipeline
+from config import (
     MAX_FILES_PER_JOB,
     RESULT_DIR,
     UPLOAD_DIR,

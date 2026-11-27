@@ -8,8 +8,8 @@ import joblib
 import numpy as np
 import pandas as pd
 
-from backend.config import MODEL_PATH
-from backend.services.gru_preparation import iter_gru_batches
+from config import MODEL_PATH
+from services.gru_preparation import iter_gru_batches
 
 MODEL_FILE = MODEL_PATH / "gru" / "gru_E2_w48.keras"
 SCALER_FILE = MODEL_PATH / "gru" / "gru_E2_w48_scaler.joblib"

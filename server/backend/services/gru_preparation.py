@@ -6,7 +6,7 @@ from collections.abc import Iterator
 import numpy as np
 import pandas as pd
 
-from backend.services.preparation import SEASON_CATEGORIES, TIME_STEP
+from services.preparation import SEASON_CATEGORIES, TIME_STEP
 
 WINDOW_SIZE = 48
 EXPECTED_FEATURES = 27

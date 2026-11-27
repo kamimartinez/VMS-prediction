@@ -1,4 +1,4 @@
-from backend.schemas.jobs import ProcessingJob
+from schemas.jobs import ProcessingJob
 
 jobs: dict[str, ProcessingJob] = {}
 

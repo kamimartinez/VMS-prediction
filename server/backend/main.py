@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
-from backend.api.upload import router as upload_router
+from api.upload import router as upload_router
 
 app = FastAPI(
     title="ML Processing API",

@@ -10,13 +10,13 @@ from pathlib import Path
 import pandas as pd
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
-from backend.config import RESULT_DIR, UPLOAD_DIR, WORK_DIR
-from backend.services.gru_service import predict as predict_gru
-from backend.services.job_store import get_job, update_file, update_job
-from backend.services.logistic_regression_service import (
+from config import RESULT_DIR, UPLOAD_DIR, WORK_DIR
+from services.gru_service import predict as predict_gru
+from services.job_store import get_job, update_file, update_job
+from services.logistic_regression_service import (
     predict as predict_logistic_regression,
 )
-from backend.services.preparation import prepare_uploaded_files
+from services.preparation import prepare_uploaded_files
 
 MODEL_PREDICTORS = {
     "gru": predict_gru,

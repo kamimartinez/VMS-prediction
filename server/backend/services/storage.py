@@ -4,7 +4,7 @@ from pathlib import Path
 
 from fastapi import UploadFile, HTTPException
 
-from backend.config import (
+from config import (
   UPLOAD_DIR,
   MAX_FILE_SIZE,
   CHUNK_SIZE,

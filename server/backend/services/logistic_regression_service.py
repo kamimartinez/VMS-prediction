@@ -8,8 +8,8 @@ import joblib
 import numpy as np
 import pandas as pd
 
-from backend.config import MODEL_PATH
-from backend.services.logistic_regression_preparation import (
+from config import MODEL_PATH
+from services.logistic_regression_preparation import (
     transform_logistic_features,
 )
 
