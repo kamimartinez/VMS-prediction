@@ -1,8 +1,8 @@
 """Utilidades para evaluar los modelos guardados sobre el test cronológico.
 
-Uso en el notebook:
+Uso en los notebooks:
 
-    from model_eval import load_test_data, prepare_models
+    from setup import load_test_data, prepare_models
 
     data = load_test_data()
     models, predictions = prepare_models(data)
@@ -89,13 +89,18 @@ class TestData:
 
 def _find_project_root() -> Path:
     root = next(
-        (path for path in (Path.cwd(), *Path.cwd().parents)
-         if (path / "models").is_dir() and (path / "data").is_dir()),
+        (
+            path
+            for path in Path(__file__).resolve().parents
+            if (path / "models").is_dir()
+            and (path / "data").is_dir()
+            and (path / "notebooks" / "evaluation" / "setup.py").is_file()
+        ),
         None,
     )
     if root is None:
         raise FileNotFoundError(
-            "No se encontró la raíz del proyecto con las carpetas data/ y models/."
+            "No se encontró la raíz del proyecto desde notebooks/evaluation/setup.py."
         )
     return root
 
@@ -391,6 +396,8 @@ def _predict_lstm(data: TestData, model, machine_isolated: bool = False):
         frame = _set_single_machine_categories(frame)
     frame = pd.get_dummies(frame, columns=["ms", "temporada"], dtype="float32")
     frame["cola"] = (frame[data.target] > data.label_threshold).astype(np.float32)
+    # The evaluation split contains only observed, continuous half-hour rows.
+    frame["observado"] = np.float32(1.0)
     features = frame.drop(columns="bloque_tiempo")
 
     dummies = [c for c in features.columns if c.startswith(("ms_", "temporada_"))]
@@ -399,7 +406,7 @@ def _predict_lstm(data: TestData, model, machine_isolated: bool = False):
     ).columns.tolist()
     numerics = [
         c for c in features.select_dtypes(include="number").columns
-        if c not in dummies and c != "cola"
+        if c not in dummies and c not in {"cola", "observado"}
     ]
     preprocessor = ColumnTransformer(
         transformers=[
@@ -407,7 +414,7 @@ def _predict_lstm(data: TestData, model, machine_isolated: bool = False):
                 ("imputer", SimpleImputer(strategy="median")),
                 ("scaler", StandardScaler()),
             ]), numerics),
-            ("bin", "passthrough", dummies + ["cola"]),
+            ("bin", "passthrough", dummies + ["cola", "observado"]),
             ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False),
              categoricals),
         ],
