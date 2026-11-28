@@ -36,6 +36,8 @@ MODEL_FILES = {
 MLP_MODEL_FILE = Path("mlp") / "mlp_classifier.joblib"
 GRU_SCALER_FILE = Path("gru") / "gru_E2_w48_scaler.joblib"
 GRU_CONFIG_FILE = Path("gru") / "gru_E2_w48_config.json"
+LSTM_PREPROCESSOR_FILE = Path("lstm") / "preprocessor.joblib"
+LSTM_CONFIG_FILE = Path("lstm") / "lstm_config.json"
 LOGISTIC_THRESHOLD_FILE = (
     Path("logistic-regression") / "logistic_regresion_threshold.json"
 )
@@ -78,6 +80,10 @@ class TestData:
     test_rows: np.ndarray
     gru_decision_threshold: float
     logistic_decision_threshold: float
+    lstm_decision_threshold: float
+    lstm_window: int
+    lstm_horizon: int
+    lstm_validation_cutoff: pd.Timestamp
     target: str = TARGET
     label_threshold: float = LABEL_THRESHOLD
 
@@ -177,6 +183,70 @@ def _load_gru_decision_threshold(models_path: Path) -> float:
     return float(threshold)
 
 
+def _load_lstm_config(models_path: Path) -> dict:
+    path = models_path / LSTM_CONFIG_FILE
+    if not path.exists():
+        raise FileNotFoundError(
+            f"No se encontró la configuración LSTM: {path}. "
+            "Ejecuta la celda de exportación en lstm_2.ipynb."
+        )
+
+    try:
+        config = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"Configuración LSTM inválida: {path}") from exc
+
+    if not isinstance(config, dict):
+        raise ValueError(f"La configuración LSTM debe ser un objeto JSON: {path}")
+
+    threshold = config.get("decision_threshold")
+    label_threshold = config.get("label_threshold")
+    window = config.get("window")
+    horizon = config.get("horizon")
+    cutoff = config.get("validation_cutoff")
+    if (
+        isinstance(threshold, bool)
+        or not isinstance(threshold, (int, float))
+        or not np.isfinite(threshold)
+        or not 0 <= threshold <= 1
+    ):
+        raise ValueError(f"Umbral de decisión LSTM inválido en {path}.")
+    if (
+        isinstance(label_threshold, bool)
+        or not isinstance(label_threshold, (int, float))
+        or label_threshold != LABEL_THRESHOLD
+    ):
+        raise ValueError(
+            f"La definición de cola en {path} debe ser {LABEL_THRESHOLD}."
+        )
+    if config.get("objective") != "punto":
+        raise ValueError(
+            f"La evaluación LSTM requiere objective='punto' en {path}."
+        )
+    if (
+        isinstance(window, bool)
+        or not isinstance(window, int)
+        or window < 1
+        or isinstance(horizon, bool)
+        or not isinstance(horizon, int)
+        or horizon < 1
+    ):
+        raise ValueError(f"Ventana u horizonte LSTM inválido en {path}.")
+    try:
+        validation_cutoff = pd.Timestamp(cutoff)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"Fecha validation_cutoff LSTM inválida en {path}.") from exc
+    if pd.isna(validation_cutoff):
+        raise ValueError(f"Fecha validation_cutoff LSTM inválida en {path}.")
+
+    return {
+        "decision_threshold": float(threshold),
+        "window": window,
+        "horizon": horizon,
+        "validation_cutoff": validation_cutoff,
+    }
+
+
 def load_test_data(project_root=None, verbose: bool = True) -> TestData:
     """Carga data/test_data.npz y reconstruye las particiones train/val/test."""
     project_root = Path(project_root) if project_root else _find_project_root()
@@ -184,6 +254,7 @@ def load_test_data(project_root=None, verbose: bool = True) -> TestData:
     models_path = project_root / "models"
     gru_decision_threshold = _load_gru_decision_threshold(models_path)
     logistic_decision_threshold = _load_logistic_decision_threshold(models_path)
+    lstm_config = _load_lstm_config(models_path)
 
     if not split_path.exists():
         raise FileNotFoundError(
@@ -229,6 +300,10 @@ def load_test_data(project_root=None, verbose: bool = True) -> TestData:
         test_rows=test_rows,
         gru_decision_threshold=gru_decision_threshold,
         logistic_decision_threshold=logistic_decision_threshold,
+        lstm_decision_threshold=lstm_config["decision_threshold"],
+        lstm_window=lstm_config["window"],
+        lstm_horizon=lstm_config["horizon"],
+        lstm_validation_cutoff=lstm_config["validation_cutoff"],
     )
 
     if verbose:
@@ -399,44 +474,74 @@ def _predict_lstm(data: TestData, model, machine_isolated: bool = False):
     # The evaluation split contains only observed, continuous half-hour rows.
     frame["observado"] = np.float32(1.0)
     features = frame.drop(columns="bloque_tiempo")
-
-    dummies = [c for c in features.columns if c.startswith(("ms_", "temporada_"))]
-    categoricals = features.select_dtypes(
-        include=["object", "category", "string"]
-    ).columns.tolist()
-    numerics = [
-        c for c in features.select_dtypes(include="number").columns
-        if c not in dummies and c not in {"cola", "observado"}
-    ]
-    preprocessor = ColumnTransformer(
-        transformers=[
-            ("num", Pipeline([
-                ("imputer", SimpleImputer(strategy="median")),
-                ("scaler", StandardScaler()),
-            ]), numerics),
-            ("bin", "passthrough", dummies + ["cola", "observado"]),
-            ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False),
-             categoricals),
-        ],
-        remainder="drop",
-        verbose_feature_names_out=False,
+    preprocessor_path = data.models_path / LSTM_PREPROCESSOR_FILE
+    if not preprocessor_path.exists():
+        raise FileNotFoundError(
+            f"No se encontró el preprocesador LSTM requerido: {preprocessor_path}"
+        )
+    preprocessor = joblib.load(preprocessor_path)
+    expected_columns = list(preprocessor.feature_names_in_)
+    missing_columns = set(expected_columns) - set(features.columns)
+    extra_columns = set(features.columns) - set(expected_columns)
+    if missing_columns or extra_columns:
+        raise ValueError(
+            "Las variables de evaluación LSTM no coinciden con el preprocesador: "
+            f"faltan={sorted(missing_columns)}, sobran={sorted(extra_columns)}."
+        )
+    matrix = np.asarray(
+        preprocessor.transform(features.loc[:, expected_columns]),
+        dtype=np.float32,
     )
-    preprocessor.fit(features.iloc[:data.train_end])
-    matrix = preprocessor.transform(features).astype(np.float32)
 
-    window = int(model.input_shape[1])
+    window = data.lstm_window
+    horizon = data.lstm_horizon
     _check_input_shape(model, (window, matrix.shape[1]), "LSTM")
-    targets = np.arange(max(data.validation_end, window), len(data.full_data))
-    if machine_isolated:
-        timestamps = pd.to_datetime(data.full_data["bloque_tiempo"])
-        starts = targets - window
-        continuous = (
-            timestamps.iloc[targets].to_numpy() - timestamps.iloc[starts].to_numpy()
-        ) == pd.Timedelta(minutes=30 * window)
-        targets = targets[continuous]
-    indices = targets[:, None] - window + np.arange(window)
-    scores = _predict_scores(model, matrix[indices])
-    return pd.Series(scores, index=targets), (window, matrix.shape[1])
+    offset = window - 1 + horizon
+    step = np.timedelta64(30, "m")
+    cutoff = np.datetime64(data.lstm_validation_cutoff)
+    score_parts = []
+    target_parts = []
+
+    for _, machine_rows in data.full_data.groupby("ms", sort=False):
+        machine_rows = machine_rows.sort_values("bloque_tiempo", kind="stable")
+        row_ids = machine_rows["__row_id__"].to_numpy(dtype=np.int64)
+        timestamps = machine_rows["bloque_tiempo"].to_numpy(
+            dtype="datetime64[ns]"
+        )
+        if len(row_ids) <= offset:
+            continue
+
+        target_positions = np.arange(offset, len(row_ids))
+        starts = target_positions - offset
+        gaps = np.r_[0, (np.diff(timestamps) != step).astype(np.int64)]
+        gap_prefix = np.cumsum(gaps)
+        selected = (
+            (gap_prefix[target_positions] - gap_prefix[starts] == 0)
+            & (timestamps[target_positions] >= cutoff)
+        )
+        target_positions = target_positions[selected]
+        if target_positions.size == 0:
+            continue
+
+        window_starts = target_positions - horizon - window + 1
+        window_ids = row_ids[
+            window_starts[:, None] + np.arange(window)
+        ]
+        score_parts.append(
+            _predict_scores(model, matrix[window_ids])
+        )
+        target_parts.append(row_ids[target_positions])
+
+    if not target_parts:
+        raise ValueError("No se generaron ventanas de test para LSTM.")
+
+    target_ids = np.concatenate(target_parts)
+    scores = np.concatenate(score_parts)
+    order = np.argsort(target_ids)
+    return (
+        pd.Series(scores[order], index=target_ids[order]),
+        (window, matrix.shape[1]),
+    )
 
 
 # ----- Regresión logística --------------------------------------------------

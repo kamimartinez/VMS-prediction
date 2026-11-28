@@ -1,0 +1,11 @@
+{
+  "architecture": "base",
+  "decision_threshold": 0.6601099967956543,
+  "label_threshold": 0.5,
+  "window": 48,
+  "horizon": 48,
+  "objective": "punto",
+  "validation_cutoff": "2025-06-27T15:30:00",
+  "validation_f1": 0.6341662491552874,
+  "test_f1": 0.7647702685503373
+}

@@ -42,16 +42,27 @@ def create_temporal_split(
     df[TIME_COLUMN] = pd.to_datetime(df[TIME_COLUMN])
     df = df.sort_values([TIME_COLUMN, ROBOT_COLUMN], kind="stable").reset_index(drop=True)
 
-    n_rows = len(df)
-    train_end = int(n_rows * TRAIN_FRACTION)
-    validation_end = int(n_rows * (TRAIN_FRACTION + VALIDATION_FRACTION))
-    if train_end == 0 or validation_end <= train_end or validation_end >= n_rows:
-        raise ValueError(f"Dataset is too small for a 70/15/15 split: {n_rows} rows.")
+    times = np.sort(df[TIME_COLUMN].unique())
+    if len(times) < 3:
+        raise ValueError(
+            f"Dataset is too small for a 70/15/15 split: {len(df)} rows."
+        )
+    train_cutoff = times[int(len(times) * TRAIN_FRACTION)]
+    validation_cutoff = times[
+        int(len(times) * (TRAIN_FRACTION + VALIDATION_FRACTION))
+    ]
+    if train_cutoff >= validation_cutoff or validation_cutoff >= times[-1]:
+        raise ValueError(
+            f"Dataset is too small for a 70/15/15 split: {len(df)} rows."
+        )
 
     partitions = {
-        "train": df.iloc[:train_end],
-        "validation": df.iloc[train_end:validation_end],
-        "test": df.iloc[validation_end:],
+        "train": df.loc[df[TIME_COLUMN] < train_cutoff].reset_index(drop=True),
+        "validation": df.loc[
+            (df[TIME_COLUMN] >= train_cutoff)
+            & (df[TIME_COLUMN] < validation_cutoff)
+        ].reset_index(drop=True),
+        "test": df.loc[df[TIME_COLUMN] >= validation_cutoff].reset_index(drop=True),
     }
     metadata = {
         "source": data_path.name,
